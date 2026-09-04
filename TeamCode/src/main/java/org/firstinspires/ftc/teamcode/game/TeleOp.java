@@ -20,11 +20,18 @@ public class TeleOp extends OpMode {
 
     @Override
     public void init () {
+        // Objects
         imu = hardwareMap.get(IMU.class,"imu");
         new RevHubOrientationOnRobot(controlHubLogoFacingDirection, controlHubUSBFacingDirection);
         gamepadEx = new GamepadEx(gamepad1);
+
+        // Subsystems
         mecanumDriveSubsystem = new MecanumDriveSubsystem(hardwareMap,imu,telemetry);
+
+        // Commands
         driveCommand = new DriveCommand(gamepadEx,mecanumDriveSubsystem);
+
+        // Assignments
         mecanumDriveSubsystem.setDefaultCommand(driveCommand);
     }
 
