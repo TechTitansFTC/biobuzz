@@ -8,10 +8,12 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.IMU;
 import com.seattlesolvers.solverslib.command.CommandScheduler;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
+import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
-import org.firstinspires.ftc.teamcode.Commands.DriveCommand;
+import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 
+@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp Main")
 public class TeleOp extends OpMode {
     MecanumDriveSubsystem mecanumDriveSubsystem;
     DriveCommand driveCommand;
@@ -33,6 +35,8 @@ public class TeleOp extends OpMode {
 
         // Assignments
         mecanumDriveSubsystem.setDefaultCommand(driveCommand);
+        gamepadEx.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
+                .whenPressed(() -> mecanumDriveSubsystem.resetIMU());
     }
 
     @Override
