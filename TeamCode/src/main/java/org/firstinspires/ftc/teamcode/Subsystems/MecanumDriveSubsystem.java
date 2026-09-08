@@ -9,8 +9,8 @@ import com.seattlesolvers.solverslib.command.SubsystemBase;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class MecanumDriveSubsystem extends SubsystemBase{
-    IMU imu;
-    private DcMotor frontLeft, frontRight, backLeft, backRight;
+    private final IMU imu;
+    private final DcMotor frontLeft, frontRight, backLeft, backRight;
 
     private final Telemetry telemetry;
 

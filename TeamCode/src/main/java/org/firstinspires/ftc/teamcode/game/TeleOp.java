@@ -19,7 +19,6 @@ public class TeleOp extends OpMode {
     DriveCommand driveCommand;
     IMU imu;
     GamepadEx gamepadEx;
-
     @Override
     public void init () {
         // Objects
@@ -33,7 +32,7 @@ public class TeleOp extends OpMode {
         // Commands
         driveCommand = new DriveCommand(gamepadEx,mecanumDriveSubsystem);
 
-        // Assignments
+        // Bindings
         mecanumDriveSubsystem.setDefaultCommand(driveCommand);
         gamepadEx.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(() -> mecanumDriveSubsystem.resetIMU());
@@ -43,7 +42,6 @@ public class TeleOp extends OpMode {
     public void loop () {
         CommandScheduler.getInstance().run();
         gamepadEx.readButtons();
-        telemetry.update();
     }
 
     @Override
