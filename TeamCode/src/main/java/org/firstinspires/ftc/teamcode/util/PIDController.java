@@ -4,15 +4,17 @@ public class PIDController {
     private double kp; // Proportional gain
     private double ki; // Integral gain
     private double kd; // Derivative gain
+    private double kf; // Feedforward gain
 
     private double target; // Setpoint
     private double integral; // Integral term accumulation
     private double previousError; // Previous error value
 
-    public PIDController(double kp, double ki, double kd) {
+    public PIDController(double kp, double ki, double kd, double kf) {
         this.kp = kp;
         this.ki = ki;
         this.kd = kd;
+        this.kf = kf;
         this.target = 0.0;
         this.integral = 0.0;
         this.previousError = 0.0;
@@ -37,8 +39,11 @@ public class PIDController {
         // Derivative term
         double derivativeTerm = kd * ((error - previousError) / deltaTime);
 
+        // Feedforward term
+        double feedforwardTerm = kf;
+
         // Calculate the output value
-        double output = proportionalTerm + integralTerm + derivativeTerm;
+        double output = proportionalTerm + integralTerm + derivativeTerm + feedforwardTerm;
 
         // Update previous error value
         previousError = error;
