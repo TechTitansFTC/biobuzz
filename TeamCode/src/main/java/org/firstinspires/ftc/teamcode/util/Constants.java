@@ -11,7 +11,7 @@ public class Constants {
 
     // Slides
     public static double slidesScoringPosition = 3.1415926535897926;
-    public static double slidesIntakePosition = 2048;
+    public static int slidesIntakePosition = 2048;
     public static double bucketServoUpPosition = 0.5;
     public static double bucketServoIntakePosition = 0.2;
     public static double bucketServoScoringPosition = 0.8;
