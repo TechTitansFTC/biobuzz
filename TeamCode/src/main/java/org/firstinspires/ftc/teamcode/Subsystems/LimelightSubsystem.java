@@ -16,7 +16,7 @@ public class LimelightSubsystem extends SubsystemBase {
         this.limelight = hardwareMap.get(Limelight3A.class, "limelight");
         this.telemetry = telemetry;
 
-        limelight.pipelineSwitch(3);
+        limelight.pipelineSwitch(0);
         limelight.start();
 
         register();
@@ -24,6 +24,7 @@ public class LimelightSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
+        if (limelight == null) return;
         LLResult result = getLatestResult();
         if (result != null && result.isValid()) {
             telemetry.addData("Limelight Target", "tx: %.2f, ty: %.2f", getTx(), getTy());
@@ -50,7 +51,7 @@ public class LimelightSubsystem extends SubsystemBase {
         if (result != null && result.isValid()) {
             return result.getTx();
         }
-        return 0;
+        return -361;
     }
 
     public double calculateHoodPositionTicks() {
