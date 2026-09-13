@@ -8,6 +8,7 @@ import static org.firstinspires.ftc.teamcode.util.Constants.pValue;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.seattlesolvers.solverslib.command.CommandBase;
+import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 
 import org.firstinspires.ftc.teamcode.subsystems.LimelightSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
@@ -18,10 +19,11 @@ public class LimelightAlignCommand extends CommandBase {
     private final LimelightSubsystem limelightSubsystem;
     private final ElapsedTime loopTimer;
     private final PIDController pidController;
-
-    public LimelightAlignCommand(MecanumDriveSubsystem mecanumDriveSubsystem, LimelightSubsystem limelightSubsystem) {
+    private final GamepadEx gamepadEx;
+    public LimelightAlignCommand(GamepadEx gamepadEx, MecanumDriveSubsystem mecanumDriveSubsystem, LimelightSubsystem limelightSubsystem) {
         this.mecanumDriveSubsystem = mecanumDriveSubsystem;
         this.limelightSubsystem = limelightSubsystem;
+        this.gamepadEx = gamepadEx;
 
         loopTimer = new ElapsedTime();
         pidController = new PIDController(pValue, iValue, dValue);
@@ -47,18 +49,14 @@ public class LimelightAlignCommand extends CommandBase {
         if (dt == 0) return;
         double power = pidController.calculateOutput(currentTx, dt);
         power *= flipLimelightPower;
-        mecanumDriveSubsystem.drive(0, 0, power);
+        double x = gamepadEx.getLeftX();
+        double y = gamepadEx.getLeftY();
+        mecanumDriveSubsystem.drive(x, y, power);
     }
 
     @Override
     public boolean isFinished() {
         double currentTx = limelightSubsystem.getTx();
-        if (currentTx == -361) return true;
-        return Math.abs(currentTx) <= limelightAlignAccuracy;
-    }
-
-    @Override
-    public void end(boolean interrupted) {
-        mecanumDriveSubsystem.drive(0, 0, 0);
+        return currentTx == -361;
     }
 }

@@ -36,11 +36,11 @@ public class TeleOp extends OpMode {
 
         // Commands
         driveCommand = new DriveCommand(gamepadEx,mecanumDriveSubsystem);
-        limelightAlignCommand = new LimelightAlignCommand(mecanumDriveSubsystem, limelightSubsystem);
+        limelightAlignCommand = new LimelightAlignCommand(gamepadEx, mecanumDriveSubsystem, limelightSubsystem);
 
-        // Bindins
+        // Bindings
         mecanumDriveSubsystem.setDefaultCommand(driveCommand);
-        gamepadEx.getGamepadButton(GamepadKeys.Button.A).whenPressed(limelightAlignCommand);
+        gamepadEx.getGamepadButton(GamepadKeys.Button.A).whenHeld(limelightAlignCommand);
         gamepadEx.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(() -> mecanumDriveSubsystem.resetIMU());
     }
