@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
 import static org.firstinspires.ftc.teamcode.util.Constants.bucketServoIntakePosition;
+import static org.firstinspires.ftc.teamcode.util.Constants.intakeActiveMotorPower;
 import static org.firstinspires.ftc.teamcode.util.Constants.slidesIntakePosition;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -9,13 +10,13 @@ import com.seattlesolvers.solverslib.command.CommandBase;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.SlidesSubsystem;
 
-public class IntakeCommand extends CommandBase {
+public class IntakeStartCommand extends CommandBase {
     private final IntakeSubsystem intakeSubsystem;
     private final SlidesSubsystem slidesSubsystem;
     private ElapsedTime intakeCommandTime;
-    private enum IntakeCommandEnum {BUCKET_DOWN, START_INTAKE, BUCKET_UP, END_INTAKE}
+    private enum IntakeCommandEnum {BUCKET_DOWN, START_INTAKE, STOP}
     private IntakeCommandEnum intakeCommandEnumState;
-    public IntakeCommand(IntakeSubsystem intakeSubsystem, SlidesSubsystem slidesSubsystem) {
+    public IntakeStartCommand(IntakeSubsystem intakeSubsystem, SlidesSubsystem slidesSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
         this.slidesSubsystem = slidesSubsystem;
 
@@ -40,8 +41,16 @@ public class IntakeCommand extends CommandBase {
                     intakeCommandEnumState = IntakeCommandEnum.START_INTAKE;
                 }
                 break;
-            // TODO: Finish this
+            case START_INTAKE:
+                intakeSubsystem.setIntakeMotorPower(intakeActiveMotorPower);
+                intakeCommandEnumState = IntakeCommandEnum.STOP;
+                break;
         }
     }
 
+    @Override
+    public boolean isFinished() {
+        return (intakeCommandEnumState == IntakeCommandEnum.STOP);
+
+    }
 }
