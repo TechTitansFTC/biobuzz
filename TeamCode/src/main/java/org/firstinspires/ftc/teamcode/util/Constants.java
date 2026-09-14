@@ -10,9 +10,9 @@ public class Constants {
     public static RevHubOrientationOnRobot.UsbFacingDirection controlHubUSBFacingDirection = RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
 
     // Limelight
-    public static double pValue = 0.1;
-    public static double iValue = 0.001;
-    public static double dValue = 0.1;
-    public static double limelightAlignAccuracy = 2;
+    public static double pValue = 0.015;
+    public static double iValue = 0.000;
+    public static double dValue = 0.001;
+    // public static double limelightAlignAccuracy = 2;
     public static int flipLimelightPower = -1;
 }

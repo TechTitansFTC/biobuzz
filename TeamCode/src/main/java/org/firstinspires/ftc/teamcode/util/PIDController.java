@@ -45,4 +45,10 @@ public class PIDController {
 
         return output;
     }
+
+    public void setPID(double kp, double ki, double kd) {
+        this.kp = kp;
+        this.ki = ki;
+        this.kd = kd;
+    }
 }

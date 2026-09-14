@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.commands;
 import static org.firstinspires.ftc.teamcode.util.Constants.dValue;
 import static org.firstinspires.ftc.teamcode.util.Constants.flipLimelightPower;
 import static org.firstinspires.ftc.teamcode.util.Constants.iValue;
-import static org.firstinspires.ftc.teamcode.util.Constants.limelightAlignAccuracy;
 import static org.firstinspires.ftc.teamcode.util.Constants.pValue;
 
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -40,6 +39,7 @@ public class LimelightAlignCommand extends CommandBase {
     @Override
     public void execute() {
         double currentTx = limelightSubsystem.getTx();
+        pidController.setPID(pValue, iValue, dValue);
         if (currentTx == -361) {
             mecanumDriveSubsystem.drive(0, 0, 0);
             return;
