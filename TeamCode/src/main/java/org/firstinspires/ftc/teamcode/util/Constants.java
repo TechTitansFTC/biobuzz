@@ -23,8 +23,12 @@ public class Constants {
     public static Servo.Direction intakeFlowerPivotServoRightDirection = Servo.Direction.REVERSE;
     public static DcMotor.Direction intakeMotorDirection = DcMotor.Direction.REVERSE;
 
-    public static double intakeWheelPivotPositionOpen = 0.3;
-    public static double intakeWheelPivotPositionClosed = 0.4;
-//    public static double intake
+    public static double intakeWheelPivotPositionUp = 0.3;
+    public static double intakeWheelPivotPositionDown = 0.4;
+    public static double intakeRampPivotPositionUp = 0.3;
+    public static double intakeRampPivotPositionDown = 0.4;
+    public static double intakeFlowerPivotPositionUp = 0.3;
+    public static double intakeFlowerPivotPositionDown = 0.4;
+
 
 }
