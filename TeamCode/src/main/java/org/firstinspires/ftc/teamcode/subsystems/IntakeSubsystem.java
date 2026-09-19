@@ -46,10 +46,44 @@ public class IntakeSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-
+        telemetry.addData("Intake Wheel Pivot Position: ", getWheelPivotPosition());
+        telemetry.addData("Intake Ramp Pivot Position: ", getRampPivotPosition());
+        telemetry.addData("Intake Flower Pivot Position: ", getFlowerPivotPosition());
+        telemetry.addData("Intake Motor Power: ", getMotorPower());
     }
 
-    public void setWheelPivotPosition() {
+    public void setWheelPivotPosition(double position) {
+        intakeWheelPivotServoLeft.setPosition(position);
+        intakeWheelPivotServoRight.setPosition(position);
+    }
 
+    public void setRampPivotPosition(double position) {
+        intakeRampPivotServoLeft.setPosition(position);
+        intakeRampPivotServoRight.setPosition(position);
+    }
+
+    public void setFlowerPivotPosition(double position) {
+        intakeFlowerPivotServoLeft.setPosition(position);
+        intakeFlowerPivotServoRight.setPosition(position);
+    }
+
+    public void setMotorPower(double power) {
+        intakeMotor.setPower(power);
+    }
+
+    public double getWheelPivotPosition() {
+        return intakeWheelPivotServoLeft.getPosition();
+    }
+
+    public double getRampPivotPosition() {
+        return intakeRampPivotServoLeft.getPosition();
+    }
+
+    public double getFlowerPivotPosition() {
+        return intakeWheelPivotServoLeft.getPosition();
+    }
+
+    public double getMotorPower() {
+        return intakeMotor.getPower();
     }
 }
