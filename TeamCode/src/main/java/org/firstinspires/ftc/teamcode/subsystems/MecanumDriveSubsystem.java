@@ -35,10 +35,10 @@ public class MecanumDriveSubsystem extends SubsystemBase{
 
     @Override
     public void periodic() {
-        telemetry.addData("backLeftMotorPower", getBackLeftMotorPower());
-        telemetry.addData("backRightMotorPower", getBackRightMotorPower());
-        telemetry.addData("frontLeftMotorPower", getFrontLeftMotorPower());
-        telemetry.addData("frontRightMotorPower", getFrontRightMotorPower());
+        telemetry.addData("Drive Back Left Motor Power: ", getBackLeftMotorPower());
+        telemetry.addData("Drive Back Right Motor Power: ", getBackRightMotorPower());
+        telemetry.addData("Drive Front Left Motor Power: ", getFrontLeftMotorPower());
+        telemetry.addData("Drive Front Right Motor Power: ", getFrontRightMotorPower());
     }
 
     public void drive(double x, double y, double rotation) {
