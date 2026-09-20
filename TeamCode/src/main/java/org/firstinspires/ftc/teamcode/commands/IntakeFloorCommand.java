@@ -10,10 +10,10 @@ import com.seattlesolvers.solverslib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 
-public class IntakeFlowerCommand extends CommandBase {
+public class IntakeFloorCommand extends CommandBase {
     private final IntakeSubsystem intakeSubsystem;
 
-    public IntakeFlowerCommand(IntakeSubsystem intakeSubsystem) {
+    public IntakeFloorCommand(IntakeSubsystem intakeSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
 
         addRequirements(intakeSubsystem);
@@ -22,7 +22,7 @@ public class IntakeFlowerCommand extends CommandBase {
     @Override
     public void initialize() {
         intakeSubsystem.setMotorPower(intakeMotorPower);
-        intakeSubsystem.setFlowerPivotPosition(intakeFlowerPivotPositionDown);
+        intakeSubsystem.setFlowerPivotPosition(intakeFlowerPivotPositionUp);
         intakeSubsystem.setRampPivotPosition(intakeRampPivotPositionUp);
         intakeSubsystem.setWheelPivotPosition(intakeWheelPivotPositionUp);
     }
@@ -30,6 +30,5 @@ public class IntakeFlowerCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         intakeSubsystem.setMotorPower(0);
-        intakeSubsystem.setFlowerPivotPosition(intakeFlowerPivotPositionUp);
     }
 }

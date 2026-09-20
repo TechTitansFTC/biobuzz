@@ -80,7 +80,7 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     public double getFlowerPivotPosition() {
-        return intakeWheelPivotServoLeft.getPosition();
+        return intakeFlowerPivotServoLeft.getPosition();
     }
 
     public double getMotorPower() {
