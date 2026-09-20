@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.game;
+package org.firstinspires.ftc.teamcode.game; // all ts is ai generated so if it breaks the robot its not my fault
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
