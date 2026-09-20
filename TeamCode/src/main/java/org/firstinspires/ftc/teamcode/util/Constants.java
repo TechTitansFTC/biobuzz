@@ -27,6 +27,7 @@ public class Constants {
     public static double intakeRampPivotPositionDown = 0.4;
     public static double intakeFlowerPivotPositionUp = 0.3;
     public static double intakeFlowerPivotPositionDown = 0.4;
+
     public static double intakeMotorPower = 0.4;
 
     // Shooter
@@ -34,4 +35,6 @@ public class Constants {
     public static DcMotor.Direction shooterMotorRightDirection = DcMotorSimple.Direction.REVERSE;
 
     public static double shootingMotorPower = 0.6;
+
+
 }
