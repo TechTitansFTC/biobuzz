@@ -22,7 +22,8 @@ public class MotorPowerTest extends OpMode {
         motorPower = 0.0;
         gamepadEx = new GamepadEx(gamepad1);
         telemetry.addData("INSTRUCTIONS: ", "Press DPAD up or down to select number of" +
-                " motors. Name the motors 'testMotor1' and/or 'testMotor2' in config.");
+                " motors. Name the motors 'testMotor1' and/or 'testMotor2' in config. Press start" +
+                " when correct setting is selected.");
         telemetry.update();
     }
 
