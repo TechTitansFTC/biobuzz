@@ -10,19 +10,24 @@ import com.seattlesolvers.solverslib.command.CommandScheduler;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
+import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeFloorCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeFlowerCommand;
+import org.firstinspires.ftc.teamcode.commands.ShooterCommand;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.ShooterSubsystem;
 
 @com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TeleOp Main")
 public class TeleOp extends OpMode {
     MecanumDriveSubsystem mecanumDriveSubsystem;
     IntakeSubsystem intakeSubsystem;
+    ShooterSubsystem shooterSubsystem;
     DriveCommand driveCommand;
     IntakeFloorCommand intakeFloorCommand; // intakes from garden/floor with no flower pivot
     IntakeFlowerCommand intakeFlowerCommand; // intakes from flower with flower pivot
+    ShooterCommand shooterCommand;
     IMU imu;
     GamepadEx gamepadEx;
 
@@ -36,11 +41,13 @@ public class TeleOp extends OpMode {
         // Subsystems
         mecanumDriveSubsystem = new MecanumDriveSubsystem(hardwareMap,imu,telemetry);
         intakeSubsystem = new IntakeSubsystem(hardwareMap, telemetry);
+        shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetry);
 
         // Commands
         driveCommand = new DriveCommand(gamepadEx,mecanumDriveSubsystem);
         intakeFloorCommand = new IntakeFloorCommand(intakeSubsystem);
         intakeFlowerCommand = new IntakeFlowerCommand(intakeSubsystem);
+        shooterCommand = new ShooterCommand(intakeSubsystem, shooterSubsystem);
 
         // Bindings
         mecanumDriveSubsystem.setDefaultCommand(driveCommand);
@@ -50,6 +57,8 @@ public class TeleOp extends OpMode {
                         .whenHeld(intakeFloorCommand);
         gamepadEx.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenHeld(intakeFlowerCommand);
+        gamepadEx.getGamepadButton(GamepadKeys.Button.A)
+                .whenHeld(shooterCommand);
     }
 
     @Override
