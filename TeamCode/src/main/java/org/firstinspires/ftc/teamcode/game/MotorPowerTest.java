@@ -21,15 +21,14 @@ public class MotorPowerTest extends OpMode {
     public void init () {
         motorPower = 0.0;
         gamepadEx = new GamepadEx(gamepad1);
-        telemetry.addData("INSTRUCTIONS: ", "Press DPAD up or down to select number of" +
-                " motors. Name the motors 'testMotor1' and/or 'testMotor2' in config. Press start" +
-                " when correct setting is selected.");
-        telemetry.update();
     }
 
     @Override
     public void init_loop() {
         gamepadEx.readButtons();
+        telemetry.addData("INSTRUCTIONS: ", "Press DPAD up or down to select number of" +
+                " motors. Name the motors 'testMotor1' and/or 'testMotor2' in config. Press start" +
+                " when correct setting is selected.");
         if (gamepadEx.wasJustPressed(GamepadKeys.Button.DPAD_UP)) twoMotors = true;
         if (gamepadEx.wasJustPressed(GamepadKeys.Button.DPAD_DOWN)) twoMotors = false;
         if (twoMotors) {
@@ -100,7 +99,7 @@ public class MotorPowerTest extends OpMode {
 
     @Override
     public void loop () {
-        telemetry.addData("INSTRUCTIONS: ", "");
+        telemetry.addData("KEY BINDINGS: ", "");
         telemetry.addData("DPAD UP/DOWN: ", "Motor Power +-0.1");
         telemetry.addData("DPAD RIGHT/LEFT: ", "Motor Power +-0.05");
         telemetry.addData("Y/X: ", "Motor Power +-0.01");
