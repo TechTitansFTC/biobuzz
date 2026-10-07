@@ -2,10 +2,12 @@ package org.firstinspires.ftc.teamcode.game;
 
 import static org.firstinspires.ftc.teamcode.util.Constants.controlHubLogoFacingDirection;
 import static org.firstinspires.ftc.teamcode.util.Constants.controlHubUSBFacingDirection;
+import static org.firstinspires.ftc.teamcode.util.Constants.shooterMotorPower;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.IMU;
+import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.CommandScheduler;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
@@ -15,6 +17,7 @@ import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeFloorCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeFlowerCommand;
 import org.firstinspires.ftc.teamcode.commands.ShooterCommand;
+import org.firstinspires.ftc.teamcode.commands.ToggleShooterMotorCommand;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ShooterSubsystem;
@@ -27,6 +30,7 @@ public class TeleOp extends OpMode {
     DriveCommand driveCommand;
     IntakeFloorCommand intakeFloorCommand; // intakes from garden/floor with no flower pivot
     IntakeFlowerCommand intakeFlowerCommand; // intakes from flower with flower pivot
+    ToggleShooterMotorCommand toggleShooterMotorCommand;
     ShooterCommand shooterCommand;
     IMU imu;
     GamepadEx gamepadEx;
@@ -47,10 +51,13 @@ public class TeleOp extends OpMode {
         driveCommand = new DriveCommand(gamepadEx,mecanumDriveSubsystem);
         intakeFloorCommand = new IntakeFloorCommand(intakeSubsystem);
         intakeFlowerCommand = new IntakeFlowerCommand(intakeSubsystem);
-        shooterCommand = new ShooterCommand(intakeSubsystem, shooterSubsystem);
+        shooterCommand = new ShooterCommand(intakeSubsystem);
+        toggleShooterMotorCommand = new ToggleShooterMotorCommand(shooterSubsystem);
 
         // Bindings
         mecanumDriveSubsystem.setDefaultCommand(driveCommand);
+        gamepadEx.getGamepadButton(GamepadKeys.Button.B)
+                        .whenPressed(toggleShooterMotorCommand);
         gamepadEx.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
                 .whenPressed(() -> mecanumDriveSubsystem.resetIMU());
         gamepadEx.getGamepadButton(GamepadKeys.Button.RIGHT_BUMPER)

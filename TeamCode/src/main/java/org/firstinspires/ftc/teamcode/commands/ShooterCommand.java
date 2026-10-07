@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.firstinspires.ftc.teamcode.util.Constants.intakeChangeTime;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeMotorPower;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeRampPivotPositionDown;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeWheelPivotPositionDown;
@@ -13,20 +14,19 @@ import com.seattlesolvers.solverslib.command.CommandBase;
 
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ShooterSubsystem;
+import org.firstinspires.ftc.teamcode.util.Constants;
 
 public class ShooterCommand extends CommandBase {
     private final IntakeSubsystem intakeSubsystem;
-    private final ShooterSubsystem shooterSubsystem;
     private enum ShootingCommandRoutine {setIntakePositions, shooterMotor, transfer, end}
     private ShootingCommandRoutine currentState;
     private final ElapsedTime shooterTimer;
 
-    public ShooterCommand(IntakeSubsystem intakeSubsystem, ShooterSubsystem shooterSubsystem) {
+    public ShooterCommand(IntakeSubsystem intakeSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
-        this.shooterSubsystem = shooterSubsystem;
         this.shooterTimer = new ElapsedTime();
 
-        addRequirements(intakeSubsystem, shooterSubsystem);
+        addRequirements(intakeSubsystem);
     }
 
     @Override
@@ -41,14 +41,7 @@ public class ShooterCommand extends CommandBase {
             case setIntakePositions:
                 intakeSubsystem.setRampPivotPosition(intakeRampPivotPositionDown);
                 intakeSubsystem.setWheelPivotPosition(intakeWheelPivotPositionDown);
-                if (shooterTimer.seconds() >= 0.5) {
-                    currentState = ShootingCommandRoutine.shooterMotor;
-                    shooterTimer.reset();
-                }
-                break;
-            case shooterMotor:
-                shooterSubsystem.setMotorPower(shooterMotorPower);
-                if (shooterTimer.seconds() >= shooterMotorWaitTime) {
+                if (shooterTimer.seconds() >= intakeChangeTime) {
                     currentState = ShootingCommandRoutine.transfer;
                     shooterTimer.reset();
                 }
@@ -64,7 +57,7 @@ public class ShooterCommand extends CommandBase {
                 intakeSubsystem.setWheelPivotPosition(intakeWheelPivotPositionUp);
                 intakeSubsystem.setRampPivotPosition(intakeRampPivotPositionDown);
                 intakeSubsystem.setMotorPower(0);
-                shooterSubsystem.setMotorPower(0);
+                Constants.intakeReset = false;
                 break;
         }
     }
@@ -79,6 +72,6 @@ public class ShooterCommand extends CommandBase {
         intakeSubsystem.setWheelPivotPosition(intakeWheelPivotPositionUp);
         intakeSubsystem.setRampPivotPosition(intakeRampPivotPositionDown);
         intakeSubsystem.setMotorPower(0);
-        shooterSubsystem.setMotorPower(0);
+        Constants.intakeReset = false;
     }
 }
