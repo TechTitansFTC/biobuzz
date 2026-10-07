@@ -18,14 +18,14 @@ public class IntakeLiveTunerOpMode extends OpMode {
     @Override
     public void init() {
         // Map hardware - change the strings to match your exact configuration names
-        wheelPivotLeft = hardwareMap.get(Servo.class, "wheelPivotLeft");
-        wheelPivotRight = hardwareMap.get(Servo.class, "wheelPivotRight");
+        wheelPivotLeft = hardwareMap.get(Servo.class, "intakeWheelPivotServoLeft");
+        wheelPivotRight = hardwareMap.get(Servo.class, "intakeWheelPivotServoRight");
 
-        rampPivotLeft = hardwareMap.get(Servo.class, "rampPivotLeft");
-        rampPivotRight = hardwareMap.get(Servo.class, "rampPivotRight");
+        rampPivotLeft = hardwareMap.get(Servo.class, "intakeRampPivotServoLeft");
+        rampPivotRight = hardwareMap.get(Servo.class, "intakeRampPivotServoRight");
 
-        flowerPivotLeft = hardwareMap.get(Servo.class, "flowerPivotLeft");
-        flowerPivotRight = hardwareMap.get(Servo.class, "flowerPivotRight");
+        flowerPivotLeft = hardwareMap.get(Servo.class, "intakeFlowerPivotServoLeft");
+        flowerPivotRight = hardwareMap.get(Servo.class, "intakeFlowerPivotServoRight");
 
         intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
 
