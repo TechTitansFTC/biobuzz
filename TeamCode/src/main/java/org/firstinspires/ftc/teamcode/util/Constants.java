@@ -45,5 +45,7 @@ public class Constants {
     // Shooter
     public static DcMotor.Direction shooterMotorLeftDirection = DcMotor.Direction.FORWARD;
     public static DcMotor.Direction shooterMotorRightDirection = DcMotorSimple.Direction.REVERSE;
-    public static double shootingMotorPower = 0.6;
+    public static double shooterMotorPower = 0.6;
+    public static double shooterMotorWaitTime = 1.2;
+    public static double transferWaitTime = 0.5;
 }

@@ -58,7 +58,8 @@ public class TeleOp extends OpMode {
         gamepadEx.getGamepadButton(GamepadKeys.Button.LEFT_BUMPER)
                 .whenHeld(intakeFlowerCommand);
         gamepadEx.getGamepadButton(GamepadKeys.Button.A)
-                .whenHeld(shooterCommand);
+                .whenPressed(shooterCommand);
+
     }
 
     @Override
