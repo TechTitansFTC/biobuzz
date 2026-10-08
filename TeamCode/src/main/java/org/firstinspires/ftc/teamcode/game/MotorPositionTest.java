@@ -31,4 +31,7 @@ public class MotorPositionTest extends OpMode {
             testMotor2 = hardwareMap.get(DcMotor.class, "testMotor2");
         }
     }
+
+    @Override
+    public void loop() {}
 }
