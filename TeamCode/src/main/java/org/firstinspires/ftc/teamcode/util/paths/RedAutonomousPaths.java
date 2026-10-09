@@ -1,11 +1,6 @@
 package org.firstinspires.ftc.teamcode.util.paths;
 
-import static org.firstinspires.ftc.teamcode.pedroPathing.Tuning.follower;
-
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierLine;
-import com.pedropathing.geometry.Pose;
-import com.pedropathing.paths.PathChain;
 
 public class RedAutonomousPaths {
     private double[] initial;
