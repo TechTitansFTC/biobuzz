@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.commands;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeChangeTime;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeMotorPower;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeRampPivotPositionDown;
+import static org.firstinspires.ftc.teamcode.util.Constants.intakeRampPivotPositionUp;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeWheelPivotPositionDown;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeWheelPivotPositionUp;
 import static org.firstinspires.ftc.teamcode.util.Constants.shooterSpinUpTimeout;
@@ -70,9 +71,9 @@ public class ShooterCommand extends CommandBase {
                 break;
             case end:
                 intakeSubsystem.setWheelPivotPosition(intakeWheelPivotPositionUp);
-                intakeSubsystem.setRampPivotPosition(intakeRampPivotPositionDown);
+                intakeSubsystem.setRampPivotPosition(intakeRampPivotPositionUp);
                 intakeSubsystem.setMotorPower(0);
-                Constants.intakeReset = false;
+                Constants.intakeReset = true;
                 break;
         }
     }
@@ -85,8 +86,8 @@ public class ShooterCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         intakeSubsystem.setWheelPivotPosition(intakeWheelPivotPositionUp);
-        intakeSubsystem.setRampPivotPosition(intakeRampPivotPositionDown);
+        intakeSubsystem.setRampPivotPosition(intakeRampPivotPositionUp);
         intakeSubsystem.setMotorPower(0);
-        Constants.intakeReset = false;
+        Constants.intakeReset = true;
     }
 }
