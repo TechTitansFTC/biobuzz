@@ -70,8 +70,8 @@ public class ShooterCommand extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         intakeSubsystem.setWheelPivotPosition(intakeWheelPivotPositionUp);
-        intakeSubsystem.setRampPivotPosition(intakeRampPivotPositionDown);
+        intakeSubsystem.setRampPivotPosition(intakeRampPivotPositionDown); // TODO: make this up
         intakeSubsystem.setMotorPower(0);
-        Constants.intakeReset = false;
+        Constants.intakeReset = false; // TODO: make this true
     }
 }
