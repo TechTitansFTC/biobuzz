@@ -13,6 +13,7 @@ import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
+import com.seattlesolvers.solverslib.command.Command;
 import com.seattlesolvers.solverslib.command.CommandScheduler;
 import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 
@@ -63,8 +64,14 @@ public class RedAuto extends OpMode {
     }
 
     @Override
+    public void start() {
+        CommandScheduler.getInstance().schedule(ShooterCommand.toggleFlywheel(shooterSubsystem));
+    }
+
+    @Override
     public void loop() {
         follower.update();
+        CommandScheduler.getInstance().run();
         switch (currentState) {
             case IDLE:
                 if (30 - autoTimer.seconds() <= parkTime) {
