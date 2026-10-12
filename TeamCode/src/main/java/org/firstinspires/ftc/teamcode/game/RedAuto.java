@@ -72,25 +72,29 @@ public class RedAuto extends OpMode {
         follower.update();
         switch (currentState) {
             case IDLE:
-                if (autoTimer.seconds() <= parkTime) {
+                if (30 - autoTimer.seconds() <= parkTime) {
                     follower.followPath(buildPathChain(currPos, redAutonomousPaths.getPark()));
+                    currPos = redAutonomousPaths.getPark();
                     currentState = AutoState.PARK;
                     break;
                 }
                 if (middleDesination.equals("down")) {
                     follower.followPath(buildPathChain(currPos, redAutonomousPaths.getDown()));
+                    currPos = redAutonomousPaths.getDown();
                     currentState = AutoState.MOVING;
                     middleDesination = "";
                     break;
                 }
                 if (middleDesination.equals("up")) {
                     follower.followPath(buildPathChain(currPos, redAutonomousPaths.getUp()));
+                    currPos = redAutonomousPaths.getUp();
                     currentState = AutoState.MOVING;
                     middleDesination = "";
                     break;
                 }
                 if (middleDesination.equals("flowerUp")) {
                     follower.followPath(buildPathChain(currPos, redAutonomousPaths.getFlowerUp1()));
+                    currPos = redAutonomousPaths.getFlowerUp1();
                     currentState = AutoState.MOVING;
                     middleDesination = "";
                     break;
@@ -114,6 +118,7 @@ public class RedAuto extends OpMode {
                                 middleDesination = "up";
                             }
                             follower.followPath(buildPathChain(currPos, redAutonomousPaths.getMiddle()));
+                            currPos = redAutonomousPaths.getMiddle();
                             currentState = AutoState.MOVING;
                             break;
                         }
@@ -123,8 +128,10 @@ public class RedAuto extends OpMode {
                         } else {
                             if (currPos == redAutonomousPaths.getFlowerUp1() || currPos == redAutonomousPaths.getFlowerUp2()) {
                                 follower.followPath(buildPathChain(currPos, redAutonomousPaths.getUp()));
+                                currPos = redAutonomousPaths.getUp();
                             } else {
                                 follower.followPath(buildPathChain(currPos, redAutonomousPaths.getDown()));
+                                currPos = redAutonomousPaths.getDown();
                             }
                             currentState = AutoState.MOVING;
                         }
@@ -137,22 +144,26 @@ public class RedAuto extends OpMode {
                     if (currPos == redAutonomousPaths.getDown()) {
                         middleDesination = "flowerUp";
                         follower.followPath(buildPathChain(currPos, redAutonomousPaths.getMiddle()));
+                        currPos = redAutonomousPaths.getMiddle();
                         currentState = AutoState.MOVING;
                         break;
                     }
                     follower.followPath(buildPathChain(currPos, redAutonomousPaths.getFlowerUp1()));
+                    currPos = redAutonomousPaths.getFlowerUp1();
                     currentState = AutoState.MOVING;
                     break;
                 }
                 if (flowerDown) {
                     flowerDown = false;
                     follower.followPath(buildPathChain(currPos, redAutonomousPaths.getFlowerDown1()));
+                    currPos = redAutonomousPaths.getFlowerDown1();
                     currentState = AutoState.MOVING;
                     break;
                 }
                 if (garden) {
                     garden = false;
                     follower.followPath(buildPathChain(currPos, redAutonomousPaths.getGarden1()));
+                    currPos = redAutonomousPaths.getGarden1();
                     currentState = AutoState.MOVING;
                     break;
                 }
@@ -176,10 +187,13 @@ public class RedAuto extends OpMode {
                 }
                 if (currPos == redAutonomousPaths.getFlowerDown1()) {
                     follower.followPath(buildPathChain(currPos, redAutonomousPaths.getFlowerDown2()));
+                    currPos = redAutonomousPaths.getFlowerDown2();
                 } else if (currPos == redAutonomousPaths.getFlowerUp1()) {
                     follower.followPath(buildPathChain(currPos, redAutonomousPaths.getFlowerUp2()));
+                    currPos = redAutonomousPaths.getFlowerUp2();
                 } else if (currPos == redAutonomousPaths.getGarden1()) {
                     follower.followPath(buildPathChain(currPos, redAutonomousPaths.getGarden2()));
+                    currPos = redAutonomousPaths.getGarden2();
                 }
                 currentState = AutoState.INTAKE_2;
                 break;
@@ -196,11 +210,22 @@ public class RedAuto extends OpMode {
                 }
                 break;
             case CHECK_TIP:
-                tip = currPos != redAutonomousPaths.getDown() || (limelightSubsystem.getAprilTagID() != 34 && limelightSubsystem.getAprilTagID() != 35 &&
-                        limelightSubsystem.getAprilTagID() != 36 && limelightSubsystem.getAprilTagID() != 37); // trust me it works
-                tip = currPos == redAutonomousPaths.getUp() && (limelightSubsystem.getAprilTagID() == 30 || limelightSubsystem.getAprilTagID() == 31 ||
-                        limelightSubsystem.getAprilTagID() == 32 || limelightSubsystem.getAprilTagID() == 33);
+                if (!limelightSubsystem.hasTarget()) {
+                    knowTip = false;
+                    currentState = AutoState.IDLE;
+                }
+                if (currPos == redAutonomousPaths.getDown() && (limelightSubsystem.getAprilTagID() == 34 || limelightSubsystem.getAprilTagID() == 35 ||
+                        limelightSubsystem.getAprilTagID() == 36 || limelightSubsystem.getAprilTagID() == 37))
+                    tip = false; // trust me it works
+                else
+                    tip = true;
+                if (currPos == redAutonomousPaths.getUp() && (limelightSubsystem.getAprilTagID() == 30 || limelightSubsystem.getAprilTagID() == 31 ||
+                        limelightSubsystem.getAprilTagID() == 32 || limelightSubsystem.getAprilTagID() == 33))
+                    tip = true;
+                else
+                    tip = false;
                 knowTip = true;
+                currentState = AutoState.IDLE;
                 break;
             case PARK:
                 if (!follower.isBusy()) {
