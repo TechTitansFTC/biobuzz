@@ -14,7 +14,7 @@ public class RedAutonomousPaths {
     private double[] park;
 
     public RedAutonomousPaths() {
-        initial = new double[]{56, 9, 270};
+        initial = new double[]{56, 9, 270}; // x, y, heading
         down = new double[]{58, 18, 270};
         middle = new double[]{38, 90, 135};
         up = new double[]{58, 126, 90};
@@ -24,7 +24,7 @@ public class RedAutonomousPaths {
         flowerDown2 = new double[]{10, 48, 180};
         garden1 = new double[]{9, 15, 270};
         garden2 = new double[]{9, 9, 270};
-        park = new double[]{0, 0, 0}; // TODO: Find this point and heading
+        park = new double[]{9, 95, 90}; // TODO: Find this point and heading
     }
 
     public double[] getInitial() {

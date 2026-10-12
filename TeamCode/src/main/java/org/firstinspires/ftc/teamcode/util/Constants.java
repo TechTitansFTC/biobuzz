@@ -50,4 +50,7 @@ public class Constants {
     public static double shooterMotorPower = 0.9;
     public static double shooterMotorWaitTime = 4;
     public static double transferWaitTime = 0.7;
+
+    // Autonomous
+    public static double parkTime = 4.5;
 }

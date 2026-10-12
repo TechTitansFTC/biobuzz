@@ -1,9 +1,15 @@
 package org.firstinspires.ftc.teamcode.game;
 
-import static org.firstinspires.ftc.teamcode.util.Constants.transferWaitTime;
+import static org.firstinspires.ftc.teamcode.util.Constants.intakeFlowerPivotPositionDown;
+import static org.firstinspires.ftc.teamcode.util.Constants.intakeFlowerPivotPositionUp;
+import static org.firstinspires.ftc.teamcode.util.Constants.intakeMotorPower;
+import static org.firstinspires.ftc.teamcode.util.Constants.intakeRampPivotPositionUp;
+import static org.firstinspires.ftc.teamcode.util.Constants.intakeWheelPivotPositionUp;
+import static org.firstinspires.ftc.teamcode.util.Constants.parkTime;
 import static org.firstinspires.ftc.teamcode.util.paths.PathChainBuilder.buildPathChain;
 
 import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -12,6 +18,7 @@ import com.seattlesolvers.solverslib.command.SequentialCommandGroup;
 
 import org.firstinspires.ftc.teamcode.commands.ShooterCommand;
 import org.firstinspires.ftc.teamcode.commands.ToggleShooterMotorCommand;
+import org.firstinspires.ftc.teamcode.pedroPathing.Constants;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.LimelightSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ShooterSubsystem;
@@ -36,7 +43,7 @@ public class RedAuto extends OpMode {
     private boolean hasPollen = true;
     private String middleDesination = "up"; // up, down, flowerUp, none
     private double[] currPos;
-    private enum AutoState {IDLE, SHOOT, INTAKE_1, INTAKE_2, MOVING, CHECK_TIP}
+    private enum AutoState {IDLE, SHOOT, INTAKE_1, INTAKE_2, MOVING, CHECK_TIP, PARK}
     private AutoState currentState;
 
     @Override
@@ -53,8 +60,10 @@ public class RedAuto extends OpMode {
         autoTimer = new ElapsedTime();
         autoTimer.reset();
 
+        follower = Constants.createFollower(hardwareMap);
+        follower.setStartingPose(new Pose(redAutonomousPaths.getInitial()[0],
+                redAutonomousPaths.getInitial()[1], Math.toRadians(redAutonomousPaths.getInitial()[2])));
         currPos = redAutonomousPaths.getInitial();
-
         currentState = AutoState.IDLE;
     }
 
@@ -63,6 +72,11 @@ public class RedAuto extends OpMode {
         follower.update();
         switch (currentState) {
             case IDLE:
+                if (autoTimer.seconds() <= parkTime) {
+                    follower.followPath(buildPathChain(currPos, redAutonomousPaths.getPark()));
+                    currentState = AutoState.PARK;
+                    break;
+                }
                 if (middleDesination.equals("down")) {
                     follower.followPath(buildPathChain(currPos, redAutonomousPaths.getDown()));
                     currentState = AutoState.MOVING;
@@ -145,14 +159,60 @@ public class RedAuto extends OpMode {
                 break;
             case SHOOT:
                 hasPollen = false;
+                knowTip = false;
                 CommandScheduler.getInstance().schedule(shooterCommand);
                 if (shooterCommand.isFinished()) {
                     currentState = AutoState.IDLE;
                 }
                 break;
-            case INTAKE_1:
-                hasPollen = true;
-                intakeSubsystem.
+            case INTAKE_1: // Assumes that intake transition time < time to go from intake pos 1 to 2
+                intakeSubsystem.setWheelPivotPosition(intakeWheelPivotPositionUp);
+                intakeSubsystem.setRampPivotPosition(intakeRampPivotPositionUp);
+                intakeSubsystem.setMotorPower(intakeMotorPower);
+                if (currPos == redAutonomousPaths.getFlowerDown1() || currPos == redAutonomousPaths.getFlowerUp1()) {
+                    intakeSubsystem.setFlowerPivotPosition(intakeFlowerPivotPositionDown);
+                } else {
+                    intakeSubsystem.setFlowerPivotPosition(intakeFlowerPivotPositionUp);
+                }
+                if (currPos == redAutonomousPaths.getFlowerDown1()) {
+                    follower.followPath(buildPathChain(currPos, redAutonomousPaths.getFlowerDown2()));
+                } else if (currPos == redAutonomousPaths.getFlowerUp1()) {
+                    follower.followPath(buildPathChain(currPos, redAutonomousPaths.getFlowerUp2()));
+                } else if (currPos == redAutonomousPaths.getGarden1()) {
+                    follower.followPath(buildPathChain(currPos, redAutonomousPaths.getGarden2()));
+                }
+                currentState = AutoState.INTAKE_2;
+                break;
+            case INTAKE_2:
+                if (!follower.isBusy()) {
+                    hasPollen = true;
+                    intakeSubsystem.setMotorPower(0);
+                    currentState = AutoState.IDLE;
+                }
+                break;
+            case MOVING:
+                if (!follower.isBusy()) {
+                    currentState = AutoState.IDLE;
+                }
+                break;
+            case CHECK_TIP:
+                tip = currPos != redAutonomousPaths.getDown() || (limelightSubsystem.getAprilTagID() != 34 && limelightSubsystem.getAprilTagID() != 35 &&
+                        limelightSubsystem.getAprilTagID() != 36 && limelightSubsystem.getAprilTagID() != 37); // trust me it works
+                tip = currPos == redAutonomousPaths.getUp() && (limelightSubsystem.getAprilTagID() == 30 || limelightSubsystem.getAprilTagID() == 31 ||
+                        limelightSubsystem.getAprilTagID() == 32 || limelightSubsystem.getAprilTagID() == 33);
+                knowTip = true;
+                break;
+            case PARK:
+                if (!follower.isBusy()) {
+                    requestOpModeStop();
+                    return;
+                }
+                break;
         }
+    }
+
+    @Override
+    public void stop() {
+        CommandScheduler.getInstance().reset();
     }
 }
