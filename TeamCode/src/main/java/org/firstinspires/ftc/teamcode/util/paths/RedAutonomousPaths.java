@@ -16,7 +16,7 @@ public class RedAutonomousPaths {
     public RedAutonomousPaths() {
         initial = new double[]{56, 9, 270}; // x, y, heading
         down = new double[]{58, 18, 270};
-        middle = new double[]{38, 90, 135};
+        middle = new double[]{9, 93, 90};
         up = new double[]{58, 126, 90};
         flowerUp1 = new double[]{48, 125, 90};
         flowerUp2 = new double[]{48, 130, 90};
@@ -72,5 +72,7 @@ public class RedAutonomousPaths {
     /*
      * up to down
      * down to flowerUp
+     * up to flowerDown
+     * up to garden
      */
 }
