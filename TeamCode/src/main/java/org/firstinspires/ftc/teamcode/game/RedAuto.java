@@ -213,17 +213,23 @@ public class RedAuto extends OpMode {
                 if (!limelightSubsystem.hasTarget()) {
                     knowTip = false;
                     currentState = AutoState.IDLE;
+                    break;
                 }
-                if (currPos == redAutonomousPaths.getDown() && (limelightSubsystem.getAprilTagID() == 34 || limelightSubsystem.getAprilTagID() == 35 ||
-                        limelightSubsystem.getAprilTagID() == 36 || limelightSubsystem.getAprilTagID() == 37))
-                    tip = false; // trust me it works
-                else
-                    tip = true;
-                if (currPos == redAutonomousPaths.getUp() && (limelightSubsystem.getAprilTagID() == 30 || limelightSubsystem.getAprilTagID() == 31 ||
-                        limelightSubsystem.getAprilTagID() == 32 || limelightSubsystem.getAprilTagID() == 33))
-                    tip = true;
-                else
-                    tip = false;
+                if (currPos == redAutonomousPaths.getDown()) {
+                    if (limelightSubsystem.getAprilTagID() == 34 || limelightSubsystem.getAprilTagID() == 35 ||
+                            limelightSubsystem.getAprilTagID() == 36 || limelightSubsystem.getAprilTagID() == 37) {
+                        tip = false; // trust me it works
+                    } else {
+                        tip = true;
+                    }
+                } else if (currPos == redAutonomousPaths.getUp()) {
+                    if (limelightSubsystem.getAprilTagID() == 30 || limelightSubsystem.getAprilTagID() == 31 ||
+                            limelightSubsystem.getAprilTagID() == 32 || limelightSubsystem.getAprilTagID() == 33) {
+                        tip = true;
+                    } else {
+                        tip = false;
+                    }
+                }
                 knowTip = true;
                 currentState = AutoState.IDLE;
                 break;
