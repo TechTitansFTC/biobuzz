@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.util.paths;
 
-import com.pedropathing.follower.Follower;
-
 public class RedAutonomousPaths {
     private double[] initial;
     private double[] down;
@@ -13,6 +11,7 @@ public class RedAutonomousPaths {
     private double[] flowerDown2;
     private double[] garden1;
     private double[] garden2;
+    private double[] park;
 
     public RedAutonomousPaths() {
         initial = new double[]{56, 9, 270};
@@ -25,6 +24,7 @@ public class RedAutonomousPaths {
         flowerDown2 = new double[]{10, 48, 180};
         garden1 = new double[]{9, 15, 270};
         garden2 = new double[]{9, 9, 270};
+        park = new double[]{0, 0, 0}; // TODO: Find this point and heading
     }
 
     public double[] getInitial() {
@@ -66,6 +66,7 @@ public class RedAutonomousPaths {
     public double[] getGarden2() {
         return garden2;
     }
+    public double[] getPark() { return park; }
 
     // pass through middle on:
     /*
