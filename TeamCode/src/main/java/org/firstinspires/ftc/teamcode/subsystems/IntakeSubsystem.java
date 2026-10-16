@@ -27,12 +27,12 @@ public class IntakeSubsystem extends SubsystemBase {
 
     public IntakeSubsystem(HardwareMap hardwareMap, Telemetry telemetry) {
         this.telemetry = telemetry;
-        this.intakeWheelPivotServoLeft = hardwareMap.get(Servo.class, "intakeWheelPivotServoLeft");
-        this.intakeWheelPivotServoRight = hardwareMap.get(Servo.class, "intakeWheelPivotServoRight");
-        this.intakeRampPivotServoLeft = hardwareMap.get(Servo.class, "intakeRampPivotServoLeft");
-        this.intakeRampPivotServoRight = hardwareMap.get(Servo.class, "intakeRampPivotServoRight");
-        this.intakeFlowerPivotServoLeft = hardwareMap.get(Servo.class, "intakeFlowerPivotServoLeft");
-        this.intakeFlowerPivotServoRight = hardwareMap.get(Servo.class, "intakeFlowerPivotServoRight");
+        this.intakeWheelPivotServoLeft = hardwareMap.get(Servo.class, "intakeWheelPivotServoLeft"); // Expansion Hub 2
+        this.intakeWheelPivotServoRight = hardwareMap.get(Servo.class, "intakeWheelPivotServoRight"); // Control Hub 2
+        this.intakeRampPivotServoLeft = hardwareMap.get(Servo.class, "intakeRampPivotServoLeft"); // Expansion Hub 0
+        this.intakeRampPivotServoRight = hardwareMap.get(Servo.class, "intakeRampPivotServoRight"); // Control Hub 4
+        this.intakeFlowerPivotServoLeft = hardwareMap.get(Servo.class, "intakeFlowerPivotServoLeft"); // Expansion Hub 4
+        this.intakeFlowerPivotServoRight = hardwareMap.get(Servo.class, "intakeFlowerPivotServoRight"); // Control Hub 0
         this.intakeMotor = hardwareMap.get(DcMotor.class, "intakeMotor");
 
         this.intakeWheelPivotServoLeft.setDirection(intakeWheelPivotServoLeftDirection);
@@ -46,44 +46,70 @@ public class IntakeSubsystem extends SubsystemBase {
 
     @Override
     public void periodic() {
-        telemetry.addData("Intake Wheel Pivot Position: ", getWheelPivotPosition());
-        telemetry.addData("Intake Ramp Pivot Position: ", getRampPivotPosition());
-        telemetry.addData("Intake Flower Pivot Position: ", getFlowerPivotPosition());
-        telemetry.addData("Intake Motor Power: ", getMotorPower());
+        if (telemetry != null) {
+            telemetry.addData("Intake Wheel Pivot Position: ", getWheelPivotPosition());
+            telemetry.addData("Intake Ramp Pivot Position: ", getRampPivotPosition());
+            telemetry.addData("Intake Flower Pivot Position: ", getFlowerPivotPosition());
+            telemetry.addData("Intake Motor Power: ", getMotorPower());
+        }
     }
 
     public void setWheelPivotPosition(double position) {
+        if (intakeWheelPivotServoLeft == null || intakeWheelPivotServoRight == null) {
+            return;
+        }
         intakeWheelPivotServoLeft.setPosition(position);
         intakeWheelPivotServoRight.setPosition(position);
     }
 
     public void setRampPivotPosition(double position) {
+        if (intakeRampPivotServoLeft == null || intakeRampPivotServoRight == null) {
+            return;
+        }
         intakeRampPivotServoLeft.setPosition(position);
         intakeRampPivotServoRight.setPosition(position);
     }
 
     public void setFlowerPivotPosition(double position) {
+        if (intakeFlowerPivotServoLeft == null || intakeFlowerPivotServoRight == null) {
+            return;
+        }
         intakeFlowerPivotServoLeft.setPosition(position);
         intakeFlowerPivotServoRight.setPosition(position);
     }
 
     public void setMotorPower(double power) {
+        if (intakeMotor == null) {
+            return;
+        }
         intakeMotor.setPower(power);
     }
 
     public double getWheelPivotPosition() {
+        if (intakeWheelPivotServoLeft == null) {
+            return 0.0;
+        }
         return intakeWheelPivotServoLeft.getPosition();
     }
 
     public double getRampPivotPosition() {
+        if (intakeRampPivotServoLeft == null) {
+            return 0.0;
+        }
         return intakeRampPivotServoLeft.getPosition();
     }
 
     public double getFlowerPivotPosition() {
+        if (intakeFlowerPivotServoLeft == null) {
+            return 0.0;
+        }
         return intakeFlowerPivotServoLeft.getPosition();
     }
 
     public double getMotorPower() {
+        if (intakeMotor == null) {
+            return 0.0;
+        }
         return intakeMotor.getPower();
     }
 }
