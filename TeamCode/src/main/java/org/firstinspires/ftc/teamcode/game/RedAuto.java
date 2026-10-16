@@ -38,9 +38,9 @@ public class RedAuto extends OpMode {
     private boolean flowerDown = true;
     private boolean garden = true;
     private boolean hasPollen = true;
-    private String middleDesination = "up"; // up, down, flowerUp, none
+    private String middleDestination = "up"; // up, down, flowerUp, none
     private double[] currPos;
-    private enum AutoState {IDLE, SHOOT, INTAKE_1, INTAKE_2, MOVING, CHECK_TIP, PARK}
+    private enum AutoState {START, IDLE, SHOOT, INTAKE_1, INTAKE_2, MOVING, CHECK_TIP, PARK}
     private AutoState currentState;
 
     @Override
@@ -55,16 +55,15 @@ public class RedAuto extends OpMode {
         autoTimer.reset();
 
         follower = Constants.create(hardwareMap);
-        assert follower != null;
         follower.setX(redAutonomousPaths.getInitial()[0]);
         follower.setY(redAutonomousPaths.getInitial()[1]);
         follower.setHeading(Math.toRadians(redAutonomousPaths.getInitial()[2]));
         currPos = redAutonomousPaths.getInitial();
-        currentState = AutoState.IDLE;
     }
 
     @Override
     public void start() {
+        currentState = AutoState.START;
         CommandScheduler.getInstance().schedule(ShooterCommand.toggleFlywheel(shooterSubsystem));
     }
 
@@ -73,6 +72,11 @@ public class RedAuto extends OpMode {
         follower.update();
         CommandScheduler.getInstance().run();
         switch (currentState) {
+            case START:
+                follower.follow(buildPathChain(redAutonomousPaths.getInitial(), redAutonomousPaths.getDown()));
+                currentState = AutoState.MOVING;
+                currPos = redAutonomousPaths.getDown();
+                break;
             case IDLE:
                 if (30 - autoTimer.seconds() <= parkTime) {
                     follower.follow(buildPathChain(currPos, redAutonomousPaths.getPark()));
@@ -80,39 +84,39 @@ public class RedAuto extends OpMode {
                     currentState = AutoState.PARK;
                     break;
                 }
-                if (middleDesination.equals("down")) {
+                if (middleDestination.equals("down")) {
                     follower.follow(buildPathChain(currPos, redAutonomousPaths.getDown()));
                     currPos = redAutonomousPaths.getDown();
                     currentState = AutoState.MOVING;
-                    middleDesination = "";
+                    middleDestination = "";
                     break;
                 }
-                if (middleDesination.equals("up")) {
+                if (middleDestination.equals("up")) {
                     follower.follow(buildPathChain(currPos, redAutonomousPaths.getUp()));
                     currPos = redAutonomousPaths.getUp();
                     currentState = AutoState.MOVING;
-                    middleDesination = "";
+                    middleDestination = "";
                     break;
                 }
-                if (middleDesination.equals("flowerUp")) {
+                if (middleDestination.equals("flowerUp")) {
                     follower.follow(buildPathChain(currPos, redAutonomousPaths.getFlowerUp1()));
                     currPos = redAutonomousPaths.getFlowerUp1();
                     currentState = AutoState.MOVING;
-                    middleDesination = "";
+                    middleDestination = "";
                     break;
                 }
-                if (middleDesination.equals("flowerDown")) {
+                if (middleDestination.equals("flowerDown")) {
                     follower.follow(buildPathChain(currPos, redAutonomousPaths.getFlowerDown1()));
                     currPos = redAutonomousPaths.getFlowerDown1();
                     currentState = AutoState.MOVING;
-                    middleDesination = "";
+                    middleDestination = "";
                     break;
                 }
-                if (middleDesination.equals("garden")) {
+                if (middleDestination.equals("garden")) {
                     follower.follow(buildPathChain(currPos, redAutonomousPaths.getGarden1()));
                     currPos = redAutonomousPaths.getGarden1();
                     currentState = AutoState.MOVING;
-                    middleDesination = "";
+                    middleDestination = "";
                     break;
                 }
                 if (currPos == redAutonomousPaths.getFlowerUp1() || currPos == redAutonomousPaths.getFlowerDown1() || currPos == redAutonomousPaths.getGarden1()) {
@@ -129,9 +133,9 @@ public class RedAuto extends OpMode {
                             currentState = AutoState.SHOOT;
                         } else {
                             if (correctShootingPos == redAutonomousPaths.getUp()) {
-                                middleDesination = "down";
+                                middleDestination = "down";
                             } else {
-                                middleDesination = "up";
+                                middleDestination = "up";
                             }
                             follower.follow(buildPathChain(currPos, redAutonomousPaths.getMiddle()));
                             currPos = redAutonomousPaths.getMiddle();
@@ -158,7 +162,7 @@ public class RedAuto extends OpMode {
                 if (flowerUp) {
                     flowerUp = false;
                     if (currPos == redAutonomousPaths.getDown()) {
-                        middleDesination = "flowerUp";
+                        middleDestination = "flowerUp";
                         follower.follow(buildPathChain(currPos, redAutonomousPaths.getMiddle()));
                         currPos = redAutonomousPaths.getMiddle();
                         currentState = AutoState.MOVING;
@@ -172,7 +176,7 @@ public class RedAuto extends OpMode {
                 if (flowerDown) {
                     flowerDown = false;
                     if (currPos == redAutonomousPaths.getUp()) {
-                        middleDesination = "flowerDown";
+                        middleDestination = "flowerDown";
                         follower.follow(buildPathChain(currPos, redAutonomousPaths.getMiddle()));
                         currPos = redAutonomousPaths.getMiddle();
                         currentState = AutoState.MOVING;
@@ -186,7 +190,7 @@ public class RedAuto extends OpMode {
                 if (garden) {
                     garden = false;
                     if (currPos == redAutonomousPaths.getUp()) {
-                        middleDesination = "garden";
+                        middleDestination = "garden";
                         follower.follow(buildPathChain(currPos, redAutonomousPaths.getGarden1()));
                         currPos = redAutonomousPaths.getMiddle();
                         currentState = AutoState.MOVING;
@@ -270,6 +274,16 @@ public class RedAuto extends OpMode {
                 }
                 break;
         }
+
+        telemetry.addData("", "");
+        telemetry.addData("State", currentState);
+        telemetry.addData("tip", tip);
+        telemetry.addData("knowTip", knowTip);
+        telemetry.addData("flowerUp", flowerUp);
+        telemetry.addData("flowerDown", flowerDown);
+        telemetry.addData("garden", garden);
+        telemetry.addData("hasPollen", hasPollen);
+        telemetry.update();
     }
 
     @Override
