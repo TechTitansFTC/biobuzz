@@ -41,8 +41,8 @@ public class Constants {
 
     public static ForesightConfig foresightConfig = new ForesightConfig(
             c -> {
-                Controller primaryTranslationalForward = Controller.proportional(31.361992605241014);
-                Controller secondaryTranslationalForward = Controller.proportional(11.58741825976033);
+                Controller primaryTranslationalForward = Controller.proportional(.51361992605241014);
+                Controller secondaryTranslationalForward = Controller.proportional(.35158741825976033);
                 Controller primaryTranslationalLateral = Controller.proportional(0.734601485397123);
                 Controller secondaryTranslationalLateral = Controller.proportional(0.27141561994103625);
 

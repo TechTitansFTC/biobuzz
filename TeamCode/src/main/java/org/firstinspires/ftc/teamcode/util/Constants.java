@@ -53,12 +53,14 @@ public class Constants {
     public static double shooterkS = 0.0;     //TODO: Tune using panels - volts to overcome friction
     public static double shooterkV = 0.0028;  //TODO: Tune using panels - volts per RPM (theoretical start, tune first)
     public static double shooterkP = 0.0;     //TODO: Tune using panels - volts per RPM of error
-
-    // Autonomous
-    public static double parkTime = 4.5;
     public static double shooterTargetRpm = 4000;
     public static double shooterIdleRpm = 1000;
     public static double shooterRpmTolerance = 100;
     public static double shooterSpinUpTimeout = 2.0;
     public static double shooterBangBangThreshold = 300;
+
+    // Autonomous
+    public static double parkTime = 4.5;
+    public  static double shooterSpinUpTime = 1.5;
+
 }

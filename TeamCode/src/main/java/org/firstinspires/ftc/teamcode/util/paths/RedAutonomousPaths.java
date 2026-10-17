@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.util.paths;
 
+import java.util.Arrays;
+
 public class RedAutonomousPaths {
     private double[] initial;
     private double[] down;
@@ -21,7 +23,7 @@ public class RedAutonomousPaths {
         flowerUp1 = new double[]{48, 125, 90};
         flowerUp2 = new double[]{48, 130, 90};
         flowerDown1 = new double[]{18, 48, 180};
-        flowerDown2 = new double[]{10, 48, 180};
+        flowerDown2 = new double[]{14, 48, 180};
         garden1 = new double[]{9, 15, 270};
         garden2 = new double[]{9, 9, 270};
         park = new double[]{9, 95, 90};
@@ -66,7 +68,26 @@ public class RedAutonomousPaths {
     public double[] getGarden2() {
         return garden2;
     }
-    public double[] getPark() { return park; }
+
+    public double[] getPark() {
+        return park;
+    }
+
+    public String getPose(double[] pose) {
+        if (Arrays.equals(pose, initial)) return "initial";
+        if (Arrays.equals(pose, down)) return "down";
+        if (Arrays.equals(pose, middle)) return "middle";
+        if (Arrays.equals(pose, up)) return "up";
+        if (Arrays.equals(pose, flowerUp1)) return "flowerUp1";
+        if (Arrays.equals(pose, flowerUp2)) return "flowerUp2";
+        if (Arrays.equals(pose, flowerDown1)) return "flowerDown1";
+        if (Arrays.equals(pose, flowerDown2)) return "flowerDown2";
+        if (Arrays.equals(pose, garden1)) return "garden1";
+        if (Arrays.equals(pose, garden2)) return "garden2";
+        if (Arrays.equals(pose, park)) return "park";
+
+        return "unknown";
+    }
 
     // pass through middle on:
     /*
