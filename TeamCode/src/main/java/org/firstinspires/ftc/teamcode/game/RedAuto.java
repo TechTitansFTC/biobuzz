@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.game;
 
+import static org.firstinspires.ftc.teamcode.util.Constants.autoIntakeTime;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeFlowerPivotPositionDown;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeFlowerPivotPositionUp;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeMotorPower;
@@ -52,6 +53,7 @@ public class RedAuto extends OpMode {
     private boolean tipCheckedAtAll = false;
     private boolean visited = false;
     private boolean visted2 = false;
+    double intakeTime = 0;
 
     @Override
     public void init() {
@@ -249,9 +251,10 @@ public class RedAuto extends OpMode {
                     currPos = autonomousPaths.getGarden2();
                 }
                 currentState = AutoState.INTAKE_2;
+                intakeTime = autoTimer.seconds();
                 break;
             case INTAKE_2:
-                if (!follower.isBusy()) {
+                if ((!follower.isBusy()) && (autoTimer.seconds() - intakeTime >= autoIntakeTime)) {
                     hasPollen = true;
                     intakeSubsystem.setMotorPower(0);
                     currentState = AutoState.IDLE;
