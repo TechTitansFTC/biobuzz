@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.game;
 
+import static org.firstinspires.ftc.teamcode.util.Constants.aprilTagDetectionTime;
 import static org.firstinspires.ftc.teamcode.util.Constants.autoIntakeTime;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeFlowerPivotPositionDown;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeFlowerPivotPositionUp;
@@ -43,6 +44,7 @@ public class RedAuto extends OpMode {
     private boolean flowerDown = true;
     private boolean garden = true;
     private boolean hasPollen = true;
+    private ElapsedTime aprilTagTimer;
     private String middleDestination = ""; // up, down, flowerUp, none
     private double[] currPos;
     private enum AutoState {START, IDLE, SHOOT, INTAKE_1, INTAKE_2, MOVING, CHECK_TIP, PARK}
@@ -63,6 +65,8 @@ public class RedAuto extends OpMode {
         autonomousPaths = new AutonomousPaths();
         shooterCommand = new ShooterCommand(intakeSubsystem, shooterSubsystem);
 
+        aprilTagTimer = new ElapsedTime();
+        aprilTagTimer.reset();
         autoTimer = new ElapsedTime();
         autoTimer.reset();
 
@@ -159,6 +163,7 @@ public class RedAuto extends OpMode {
                     } else {
                         if (Arrays.equals(currPos, autonomousPaths.getDown()) || Arrays.equals(currPos, autonomousPaths.getUp())) {
                             visited = true;
+                            aprilTagTimer.reset();
                             currentState = AutoState.CHECK_TIP;
                             break;
                         } else {
@@ -268,11 +273,7 @@ public class RedAuto extends OpMode {
                 break;
             case CHECK_TIP:
                 tipCheckedAtAll = true;
-//                if (!limelightSubsystem.hasTarget()) {
-//                    knowTip = false;
-//                    currentState = AutoState.IDLE;
-//                    break;
-//                }
+                if (aprilTagTimer.seconds() < aprilTagDetectionTime) break;
                 if (Arrays.equals(currPos, autonomousPaths.getDown())) {
                     if (limelightSubsystem.getAprilTagID() == 34 || limelightSubsystem.getAprilTagID() == 35 ||
                             limelightSubsystem.getAprilTagID() == 36 || limelightSubsystem.getAprilTagID() == 37) {

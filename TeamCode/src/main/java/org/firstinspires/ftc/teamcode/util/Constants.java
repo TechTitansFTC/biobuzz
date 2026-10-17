@@ -63,4 +63,5 @@ public class Constants {
     public static double parkTime = 4.5;
     public static double shooterSpinUpTime = 1.5;
     public static double autoIntakeTime = 1.5;
+    public static double aprilTagDetectionTime = 0.4;
 }
