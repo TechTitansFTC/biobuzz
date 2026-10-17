@@ -2,7 +2,7 @@ package org.firstinspires.ftc.teamcode.util.paths;
 
 import java.util.Arrays;
 
-public class RedAutonomousPaths {
+public class AutonomousPaths {
     private double[] initial;
     private double[] down;
     private double[] middle;
@@ -15,7 +15,7 @@ public class RedAutonomousPaths {
     private double[] garden2;
     private double[] park;
 
-    public RedAutonomousPaths() {
+    public AutonomousPaths() {
         initial = new double[]{56, 9, 270}; // x, y, heading
         down = new double[]{58, 18, 270};
         middle = new double[]{9, 93, 90};
