@@ -3,7 +3,6 @@ package org.firstinspires.ftc.teamcode.game;
 import static org.firstinspires.ftc.teamcode.util.Constants.controlHubLogoFacingDirection;
 import static org.firstinspires.ftc.teamcode.util.Constants.controlHubUSBFacingDirection;
 
-import com.bylazar.gamepad.GamepadManager;
 import com.bylazar.telemetry.JoinedTelemetry;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -14,13 +13,13 @@ import com.seattlesolvers.solverslib.command.CommandScheduler;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
 
-import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeFloorCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeFlowerCommand;
 import org.firstinspires.ftc.teamcode.commands.ReverseIntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.ShooterCommand;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
+import org.firstinspires.ftc.teamcode.subsystems.LimelightSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.ShooterSubsystem;
 
@@ -29,6 +28,7 @@ public class TeleOp extends OpMode {
     MecanumDriveSubsystem mecanumDriveSubsystem;
     IntakeSubsystem intakeSubsystem;
     ShooterSubsystem shooterSubsystem;
+    LimelightSubsystem limelightSubsystem;
     DriveCommand driveCommand;
     IntakeFloorCommand intakeFloorCommand; // intakes from garden/floor with no flower pivot
     IntakeFlowerCommand intakeFlowerCommand; // intakes from flower with flower pivot
@@ -52,9 +52,10 @@ public class TeleOp extends OpMode {
         mecanumDriveSubsystem = new MecanumDriveSubsystem(hardwareMap,imu,telemetry);
         intakeSubsystem = new IntakeSubsystem(hardwareMap, telemetry);
         shooterSubsystem = new ShooterSubsystem(hardwareMap, telemetry);
+        limelightSubsystem = new LimelightSubsystem(hardwareMap, telemetry);
 
         // Commands
-        driveCommand = new DriveCommand(gamepadEx,mecanumDriveSubsystem);
+        driveCommand = new DriveCommand(gamepadEx,mecanumDriveSubsystem, limelightSubsystem);
         intakeFloorCommand = new IntakeFloorCommand(intakeSubsystem);
         intakeFlowerCommand = new IntakeFlowerCommand(intakeSubsystem);
         shooterCommand = new ShooterCommand(intakeSubsystem, shooterSubsystem);

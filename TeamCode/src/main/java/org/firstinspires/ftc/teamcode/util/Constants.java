@@ -25,6 +25,10 @@ public class Constants {
     public static RevHubOrientationOnRobot.LogoFacingDirection controlHubLogoFacingDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
     public static RevHubOrientationOnRobot.UsbFacingDirection controlHubUSBFacingDirection = RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
     public static double slowModeFactor = 0.25;
+    public static double limelightAlignP = 0.01;
+    public static double limelightAlignI = 0.001;
+    public static double limelightAlignD = 0.005;
+
 
     // Intake
     public static Servo.Direction intakeWheelPivotServoLeftDirection = Servo.Direction.FORWARD;

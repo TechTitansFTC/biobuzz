@@ -16,6 +16,8 @@ public class ReverseIntakeCommand extends CommandBase {
     public ReverseIntakeCommand(IntakeSubsystem intakeSubsystem) {
         this.intakeSubsystem = intakeSubsystem;
         reverseIntakeTime = new ElapsedTime();
+
+        addRequirements(intakeSubsystem);
     }
 
     @Override
