@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.game;
 import static org.firstinspires.ftc.teamcode.util.Constants.controlHubLogoFacingDirection;
 import static org.firstinspires.ftc.teamcode.util.Constants.controlHubUSBFacingDirection;
 
+import com.bylazar.gamepad.GamepadManager;
 import com.bylazar.telemetry.JoinedTelemetry;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -17,6 +18,7 @@ import org.firstinspires.ftc.robotcore.internal.network.RobotCoreCommandList;
 import org.firstinspires.ftc.teamcode.commands.DriveCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeFloorCommand;
 import org.firstinspires.ftc.teamcode.commands.IntakeFlowerCommand;
+import org.firstinspires.ftc.teamcode.commands.ReverseIntakeCommand;
 import org.firstinspires.ftc.teamcode.commands.ShooterCommand;
 import org.firstinspires.ftc.teamcode.subsystems.IntakeSubsystem;
 import org.firstinspires.ftc.teamcode.subsystems.MecanumDriveSubsystem;
@@ -32,6 +34,7 @@ public class TeleOp extends OpMode {
     IntakeFlowerCommand intakeFlowerCommand; // intakes from flower with flower pivot
     Command toggleFlywheelCommand;
     ShooterCommand shooterCommand;
+    ReverseIntakeCommand reverseIntakeCommand;
     IMU imu;
     GamepadEx gamepadEx;
 
@@ -56,6 +59,7 @@ public class TeleOp extends OpMode {
         intakeFlowerCommand = new IntakeFlowerCommand(intakeSubsystem);
         shooterCommand = new ShooterCommand(intakeSubsystem, shooterSubsystem);
         toggleFlywheelCommand = ShooterCommand.toggleFlywheel(shooterSubsystem);
+        reverseIntakeCommand = new ReverseIntakeCommand(intakeSubsystem);
 
         // Bindings
         mecanumDriveSubsystem.setDefaultCommand(driveCommand);
@@ -69,7 +73,8 @@ public class TeleOp extends OpMode {
                 .whenHeld(intakeFlowerCommand);
         gamepadEx.getGamepadButton(GamepadKeys.Button.A)
                 .whenPressed(shooterCommand);
-
+        gamepadEx.getGamepadButton(GamepadKeys.Button.Y)
+                .whenPressed(reverseIntakeCommand);
     }
 
     @Override

@@ -41,6 +41,8 @@ public class Constants {
     public static double intakeFlowerPivotPositionUp = 0.62;
     public static double intakeFlowerPivotPositionDown = 0.4;
     public static double intakeMotorPower = 0.8;
+    public static double reverseIntakeMotorPower = -0.35;
+    public static double reverseIntakeMotorTime = 1;
     public static boolean intakeReset = false;
     public static double intakeChangeTime = 0.3;
 
