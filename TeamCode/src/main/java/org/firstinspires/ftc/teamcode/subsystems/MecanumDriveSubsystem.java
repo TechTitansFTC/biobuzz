@@ -7,6 +7,7 @@ import com.seattlesolvers.solverslib.command.SubsystemBase;
 
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class MecanumDriveSubsystem extends SubsystemBase{
     private final IMU imu;
@@ -41,23 +42,41 @@ public class MecanumDriveSubsystem extends SubsystemBase{
         telemetry.addData("frontRightMotorPower", getFrontRightMotorPower());
     }
 
-    public void drive(double x, double y, double rotation) {
-        double headingRadians = (-(imu.getRobotYawPitchRollAngles().getYaw()) * Math.PI / 180.0);
+    public void fieldCentricDrive(double x, double y, double rotation) {
+        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
-        double rotatedX = x * Math.cos(headingRadians) - y * Math.sin(headingRadians);
-        double rotatedY = x * Math.sin(headingRadians) + y * Math.cos(headingRadians);
+        // Rotate the movement direction counter to the bot's rotation
+        double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+        double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
 
-        double fl = rotatedY + rotatedX + rotation;
-        double fr = rotatedY - rotatedX - rotation;
-        double bl = rotatedY - rotatedX + rotation;
-        double br = rotatedY + rotatedX - rotation;
+        rotX = rotX * 1.1;  // Counteract imperfect strafing
 
-        double max = Math.max(1.0, Math.max(Math.abs(fl), Math.max(Math.abs(fr), Math.max(Math.abs(bl), Math.abs(br)))));
+        // Denominator is the largest motor power (absolute value) or 1
+        // This ensures all the powers maintain the same ratio,
+        // but only if at least one is out of the range [-1, 1]
+        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rotation), 1);
+        double frontLeftPower = (rotY + rotX + rotation) / denominator;
+        double backLeftPower = (rotY - rotX + rotation) / denominator;
+        double frontRightPower = (rotY - rotX - rotation) / denominator;
+        double backRightPower = (rotY + rotX - rotation) / denominator;
 
-        frontLeft.setPower(fl / max);
-        frontRight.setPower(fr / max);
-        backLeft.setPower(bl / max);
-        backRight.setPower(br / max);
+        frontLeft.setPower(frontLeftPower);
+        backLeft.setPower(backLeftPower);
+        frontRight.setPower(frontRightPower);
+        backRight.setPower(backRightPower);
+    }
+
+    public void robotCentricDrive(double x, double y, double rotation) {
+        double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rotation), 1);
+        double frontLeftPower = (y + x + rotation) / denominator;
+        double backLeftPower = (y - x + rotation) / denominator;
+        double frontRightPower = (y - x - rotation) / denominator;
+        double backRightPower = (y + x - rotation) / denominator;
+
+        frontLeft.setPower(frontLeftPower);
+        backLeft.setPower(backLeftPower);
+        frontRight.setPower(frontRightPower);
+        backRight.setPower(backRightPower);
     }
 
     public void resetIMU() {
