@@ -24,6 +24,7 @@ public class Constants {
     // Drive
     public static RevHubOrientationOnRobot.LogoFacingDirection controlHubLogoFacingDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
     public static RevHubOrientationOnRobot.UsbFacingDirection controlHubUSBFacingDirection = RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
+    public static double slowModeFactor = 0.25;
 
     // Intake
     public static Servo.Direction intakeWheelPivotServoLeftDirection = Servo.Direction.FORWARD;

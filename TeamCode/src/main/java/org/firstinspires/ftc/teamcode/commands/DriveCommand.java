@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.commands;
 
+import static org.firstinspires.ftc.teamcode.util.Constants.slowModeFactor;
+
 import com.seattlesolvers.solverslib.command.CommandBase;
 import com.seattlesolvers.solverslib.gamepad.GamepadEx;
 import com.seattlesolvers.solverslib.gamepad.GamepadKeys;
@@ -33,6 +35,13 @@ public class DriveCommand extends CommandBase {
             drive.fieldCentricDrive(x, y, rotation);
             return;
         }
+
+        if (gamepad.getTrigger(GamepadKeys.Trigger.RIGHT_TRIGGER) >= 0.5) {
+            x *= slowModeFactor;
+            y *= slowModeFactor;
+            rotation *= slowModeFactor;
+        }
+
         drive.robotCentricDrive(x, y, rotation);
     }
 
