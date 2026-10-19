@@ -24,8 +24,8 @@ public class AutonomousPaths {
         flowerUp2 = new double[]{48, 133, 90};
         flowerDown1 = new double[]{20, 48, 180};
         flowerDown2 = new double[]{12.5, 48, 180};
-        garden1 = new double[]{9, 17, 270};
-        garden2 = new double[]{9, 10, 270};
+        garden1 = new double[]{10, 17, 270};
+        garden2 = new double[]{10, 10, 270};
         park = new double[]{9, 95, 90};
     }
 
@@ -89,7 +89,7 @@ public class AutonomousPaths {
         return "unknown";
     }
 
-    // pass through middle on:
+    // pass through zz on:
     /*
      * up to down
      * down to flowerUp

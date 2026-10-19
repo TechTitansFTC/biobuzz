@@ -5,7 +5,9 @@ import static org.firstinspires.ftc.teamcode.util.Constants.autoIntakeTime;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeFlowerPivotPositionDown;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeFlowerPivotPositionUp;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeMotorPower;
+import static org.firstinspires.ftc.teamcode.util.Constants.intakePathTimeoutConstraintMilliseconds;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeRampPivotPositionUp;
+import static org.firstinspires.ftc.teamcode.util.Constants.intakeVelocityConstraint;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeWheelPivotPositionUp;
 import static org.firstinspires.ftc.teamcode.util.Constants.parkTime;
 import static org.firstinspires.ftc.teamcode.util.Constants.shooterSpinUpTime;
@@ -246,20 +248,20 @@ public class RedAuto extends OpMode {
                     intakeSubsystem.setFlowerPivotPosition(intakeFlowerPivotPositionUp);
                 }
                 if (Arrays.equals(currPos, autonomousPaths.getFlowerDown1())) {
-                    follower.follow(buildPathChain(currPos, autonomousPaths.getFlowerDown2()));
+                    follower.follow(buildPathChain(currPos, autonomousPaths.getFlowerDown2(), intakeVelocityConstraint, intakePathTimeoutConstraintMilliseconds));
                     currPos = autonomousPaths.getFlowerDown2();
                 } else if (Arrays.equals(currPos, autonomousPaths.getFlowerUp1())) {
-                    follower.follow(buildPathChain(currPos, autonomousPaths.getFlowerUp2()));
+                    follower.follow(buildPathChain(currPos, autonomousPaths.getFlowerUp2(), intakeVelocityConstraint, intakePathTimeoutConstraintMilliseconds));
                     currPos = autonomousPaths.getFlowerUp2();
                 } else if (Arrays.equals(currPos, autonomousPaths.getGarden1())) {
-                    follower.follow(buildPathChain(currPos, autonomousPaths.getGarden2()));
+                    follower.follow(buildPathChain(currPos, autonomousPaths.getGarden2(), intakeVelocityConstraint, intakePathTimeoutConstraintMilliseconds));
                     currPos = autonomousPaths.getGarden2();
                 }
                 currentState = AutoState.INTAKE_2;
                 intakeTime = autoTimer.seconds();
                 break;
             case INTAKE_2:
-                if ((!follower.isBusy()) && (autoTimer.seconds() - intakeTime >= autoIntakeTime)) {
+                if (autoTimer.seconds() - intakeTime >= autoIntakeTime) {
                     hasPollen = true;
                     intakeSubsystem.setMotorPower(0);
                     currentState = AutoState.IDLE;

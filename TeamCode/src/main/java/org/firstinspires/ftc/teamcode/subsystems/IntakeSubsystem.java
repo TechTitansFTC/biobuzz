@@ -7,6 +7,7 @@ import static org.firstinspires.ftc.teamcode.util.Constants.intakeRampPivotServo
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeRampPivotServoRightDirection;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeWheelPivotServoLeftDirection;
 import static org.firstinspires.ftc.teamcode.util.Constants.intakeWheelPivotServoRightDirection;
+import static org.firstinspires.ftc.teamcode.util.Constants.intakeWheelPositionOffset;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -58,7 +59,7 @@ public class IntakeSubsystem extends SubsystemBase {
         if (intakeWheelPivotServoLeft == null || intakeWheelPivotServoRight == null) {
             return;
         }
-        intakeWheelPivotServoLeft.setPosition(position);
+        intakeWheelPivotServoLeft.setPosition(position + intakeWheelPositionOffset);
         intakeWheelPivotServoRight.setPosition(position);
     }
 
