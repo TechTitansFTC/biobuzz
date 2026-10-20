@@ -24,6 +24,11 @@ public class Constants {
     // Drive
     public static RevHubOrientationOnRobot.LogoFacingDirection controlHubLogoFacingDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
     public static RevHubOrientationOnRobot.UsbFacingDirection controlHubUSBFacingDirection = RevHubOrientationOnRobot.UsbFacingDirection.LEFT;
+    public static double slowModeFactor = 0.25;
+    public static double limelightAlignP = 0.01;
+    public static double limelightAlignI = 0.001;
+    public static double limelightAlignD = 0.005;
+
 
     // Intake
     public static Servo.Direction intakeWheelPivotServoLeftDirection = Servo.Direction.FORWARD;
@@ -33,6 +38,7 @@ public class Constants {
     public static Servo.Direction intakeFlowerPivotServoLeftDirection = Servo.Direction.FORWARD;
     public static Servo.Direction intakeFlowerPivotServoRightDirection = Servo.Direction.REVERSE;
     public static DcMotor.Direction intakeMotorDirection = DcMotor.Direction.FORWARD;
+    public static double intakeWheelPositionOffset = -0.075;
 
     public static double intakeWheelPivotPositionUp = 0.4;
     public static double intakeWheelPivotPositionDown = 0.3;
@@ -41,6 +47,8 @@ public class Constants {
     public static double intakeFlowerPivotPositionUp = 0.62;
     public static double intakeFlowerPivotPositionDown = 0.4;
     public static double intakeMotorPower = 0.8;
+    public static double reverseIntakeMotorPower = -0.5;
+    public static double reverseIntakeMotorTime = 1.4;
     public static boolean intakeReset = false;
     public static double intakeChangeTime = 0.3;
 
@@ -49,7 +57,7 @@ public class Constants {
     public static DcMotor.Direction shooterMotorRightDirection = DcMotorSimple.Direction.FORWARD;
     public static double shooterTicksPerRev = 28;
     public static double shooterGearRatio = 1.5;
-    public static double transferWaitTime = 0.7;
+    public static double transferWaitTime = 0.35;
     public static double shooterkS = 0.0;     //TODO: Tune using panels - volts to overcome friction
     public static double shooterkV = 0.0028;  //TODO: Tune using panels - volts per RPM (theoretical start, tune first)
     public static double shooterkP = 0.0;     //TODO: Tune using panels - volts per RPM of error
@@ -60,7 +68,10 @@ public class Constants {
     public static double shooterBangBangThreshold = 300;
 
     // Autonomous
-    public static double parkTime = 4.5;
-    public  static double shooterSpinUpTime = 1.5;
-
+    public static double parkTime = 3;
+    public static double shooterSpinUpTime = 1.5;
+    public static double autoIntakeTime = 1;
+    public static double aprilTagDetectionTime = 0.4;
+    public static double intakeVelocityConstraint = 0.5;
+    public static double intakePathTimeoutConstraintMilliseconds = 250;
 }

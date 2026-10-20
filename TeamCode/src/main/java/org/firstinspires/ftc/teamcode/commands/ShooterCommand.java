@@ -88,6 +88,6 @@ public class ShooterCommand extends CommandBase {
         intakeSubsystem.setWheelPivotPosition(intakeWheelPivotPositionUp);
         intakeSubsystem.setRampPivotPosition(intakeRampPivotPositionUp); // TODO: make this up
         intakeSubsystem.setMotorPower(0);
-        Constants.intakeReset = true; // TODO: make this true
+        Constants.intakeReset = false; // TODO: make this false
     }
 }

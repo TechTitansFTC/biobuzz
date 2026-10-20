@@ -52,4 +52,11 @@ public class LimelightSubsystem extends SubsystemBase {
         }
         return -1;
     }
+
+    public double getTx() {
+        if (hasTarget()) {
+            return result.getTx();
+        }
+        return -1;
+    }
 }
