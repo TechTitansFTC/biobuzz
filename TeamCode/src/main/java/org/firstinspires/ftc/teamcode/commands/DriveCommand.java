@@ -46,10 +46,7 @@ public class DriveCommand extends CommandBase {
         double y = gamepad.getLeftY();
         double rotation = gamepad.getRightX();
 
-        gamepad.getGamepadButton(GamepadKeys.Button.DPAD_LEFT)
-                        .whenPressed(() -> fieldCentric = false);
-        gamepad.getGamepadButton(GamepadKeys.Button.DPAD_DOWN)
-                .whenPressed(() -> fieldCentric = true);
+        fieldCentric = false;
 
         if (gamepad.getTrigger(GamepadKeys.Trigger.LEFT_TRIGGER) >= 0.5) {
             if (!limelightSubsystem.hasTarget()) return;
